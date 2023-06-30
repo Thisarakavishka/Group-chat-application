@@ -1,14 +1,13 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXScrollPane;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 
-public class ChatRoomController {
+public class ChatFromController {
 
     @FXML
     private AnchorPane root;
@@ -17,22 +16,19 @@ public class ChatRoomController {
     private JFXTextField txtField;
 
     @FXML
-    private JFXButton BtnSend;
+    private JFXTextArea txtArea;
 
     @FXML
-    private JFXScrollPane scrollPane;
+    private JFXButton btnSend;
 
     @FXML
-    private VBox vbox;
-
-    @FXML
-    void BtnSendOnAction(ActionEvent event) {
+    void btnSendOnAction(ActionEvent event) {
 
     }
 
     @FXML
     void txtFieldOnAction(ActionEvent event) {
-        BtnSendOnAction(event);
+
     }
 
 }

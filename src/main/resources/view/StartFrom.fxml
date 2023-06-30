@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartFromController">
+   <children>
+      <JFXButton fx:id="btnStart" buttonType="RAISED" layoutX="144.0" layoutY="516.0" onAction="#btnStartOnAction" prefHeight="51.0" prefWidth="213.0" style="-fx-background-color: red;" text="Start Server" />
+   </children>
+</AnchorPane>

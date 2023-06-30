@@ -10,9 +10,10 @@ public class AppInitializer extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/StartFrom.fxml"))));
         stage.show();
         stage.setResizable(false);
         stage.centerOnScreen();
+        stage.setTitle("Server Form");
     }
 }
