@@ -4,7 +4,7 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-# Editor-based HTTP programm.Client requests
+# Editor-based HTTP server.Client requests
 /httpRequests/
 
 out/
