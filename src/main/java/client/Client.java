@@ -43,6 +43,9 @@ public class Client {
             stage.show();
             chatFromController = fxmlLoader.getController();
             chatFromController.setData(this, userName);
+            stage.setOnCloseRequest(windowEvent -> {
+                close();
+            });
         } catch (IOException e) {
             close();
         }

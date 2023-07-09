@@ -26,7 +26,6 @@ public class LoginFromController {
         try {
             Client client = new Client(new Socket("localhost", 3002), txtField.getText());
             client.readMessage();
-
             txtField.setText("");
         } catch (IOException e) {
             e.printStackTrace();

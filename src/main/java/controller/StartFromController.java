@@ -27,6 +27,9 @@ public class StartFromController {
             Stage stage = (Stage) root.getScene().getWindow();
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/LoginFrom.fxml"))));
             stage.setTitle("Login Form");
+            stage.setOnCloseRequest(windowEvent -> {
+                System.exit(0);
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

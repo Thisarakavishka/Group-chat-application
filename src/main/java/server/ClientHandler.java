@@ -27,18 +27,19 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void publicMessage(String message) {
-        for (ClientHandler clientHandler : clientHandlers) {
-            if (!clientHandler.userName.equals(userName)) {
-                clientHandler.sendMessage(userName + " - " + message);
-            }
-        }
-    }
-
     private void serverMessage(String message) {
         for (ClientHandler clientHandler : clientHandlers) {
             if (!clientHandler.userName.equals(userName)) {
                 clientHandler.sendMessage(message);
+            }
+        }
+    }
+
+    private void publicMessage(String message) {
+        System.out.println(message+ "This is reply");
+        for (ClientHandler clientHandler : clientHandlers) {
+            if (!clientHandler.userName.equals(userName)) {
+                clientHandler.sendMessage(userName + " - " + message);
             }
         }
     }
