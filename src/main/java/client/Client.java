@@ -70,11 +70,16 @@ public class Client {
 
     public void readMessage() {
         new Thread(() -> {
-            String message;
             while (socket.isConnected()) {
                 try {
-                    message = dataInputStream.readUTF();
-                    chatFromController.writeMessage(message);
+                    String message = dataInputStream.readUTF();
+                    if ("*image*".equals(message)) {
+                        System.out.println("77 line ");
+                        readImage();
+                    } else {
+                        System.out.println("80 line ");
+                        chatFromController.writeMessage(message);
+                    }
                 } catch (IOException e) {
                     close();
                 }
@@ -86,6 +91,30 @@ public class Client {
         try {
             dataOutputStream.writeUTF(message);
             dataOutputStream.flush();
+        } catch (IOException e) {
+            close();
+        }
+    }
+
+    public void sendImage(byte[] bytes) {
+        try {
+            dataOutputStream.writeUTF("*image*");
+            dataOutputStream.writeInt(bytes.length);
+            dataOutputStream.write(bytes);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            close();
+        }
+    }
+
+    private void readImage() {
+        System.out.println("image receive successfully");
+        try {
+            String sender = dataInputStream.readUTF();
+            int length = dataInputStream.readInt();
+            byte[] bytes = new byte[length];
+            dataInputStream.readFully(bytes);
+            chatFromController.writeImage(sender, bytes);
         } catch (IOException e) {
             close();
         }
