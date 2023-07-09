@@ -36,7 +36,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void publicMessage(String message) {
-        System.out.println(message+ "This is reply");
+        System.out.println(message + "This is reply");
         for (ClientHandler clientHandler : clientHandlers) {
             if (!clientHandler.userName.equals(userName)) {
                 clientHandler.sendMessage(userName + " - " + message);
@@ -55,16 +55,46 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        String reply;
         while (socket.isConnected()) {
             try {
-                reply = dataInputStream.readUTF();
-                publicMessage(reply);
+                String reply = dataInputStream.readUTF();
+                if ("*image*".equals(reply)) {
+                    readImage();
+                } else {
+                    publicMessage(reply);
+                }
             } catch (IOException e) {
                 close(socket, dataOutputStream, dataInputStream);
                 System.out.println("client socket is closing");
                 break;
             }
+        }
+    }
+
+    private void readImage() {
+        try {
+            int length = dataInputStream.readInt();
+            byte[] bytes = new byte[length];
+            dataInputStream.readFully(bytes);
+            for (ClientHandler clientHandler : clientHandlers) {
+                if (!clientHandler.userName.equals(userName)) {
+                    clientHandler.sendImage(userName, bytes);
+                }
+            }
+        } catch (IOException e) {
+            close(socket, dataOutputStream, dataInputStream);
+        }
+    }
+
+    private void sendImage(String userName, byte[] bytes) {
+        try {
+            dataOutputStream.writeUTF("*image*");
+            dataOutputStream.writeUTF(userName);
+            dataOutputStream.writeInt(bytes.length);
+            dataOutputStream.write(bytes);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            close(socket, dataOutputStream, dataInputStream);
         }
     }
 
