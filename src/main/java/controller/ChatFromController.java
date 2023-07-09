@@ -17,9 +17,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
 
 public class ChatFromController {
@@ -65,6 +67,7 @@ public class ChatFromController {
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(200);
 
+                //Create Hbox for add properties
                 HBox hBox = new HBox();
                 hBox.setStyle("-fx-alignment: center-right; -fx-fill-height: true; -fx-min-height: 50px; -fx-pref-width: 520px; -fx-max-width: 520px; -fx-padding: 10px; ");
 
@@ -74,6 +77,10 @@ public class ChatFromController {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     System.out.println("send image to Chat Room");
+
+                    //Create byte array and send it to client
+                    byte[] bytes = Files.readAllBytes(file.toPath());
+                    client.sendImage(bytes);
                     hBox.getChildren().add(imageView);
                     vbox.getChildren().add(hBox);
                 }
@@ -107,11 +114,11 @@ public class ChatFromController {
     public void writeMessage(String message) {
         // Create Hbox and set the style properties of the HBox
         HBox hBox = new HBox();
-        hBox.setStyle("-fx-alignment: center-left; -fx-fill-height: true; -fx-min-height: 50; -fx-pref-width: 520; -fx-max-width: 520; -fx-padding: 10");
+        hBox.setStyle("-fx-alignment: center-left; -fx-fill-height: true; -fx-min-height: 50px; -fx-pref-width: 520px; -fx-max-width: 520px; -fx-padding: 10px");
 
         // Create Label and add it to the HBox
         Label label = new Label(message);
-        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #45bea8; -fx-background-radius:15; -fx-font-size: 18; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350; -fx-padding: 10;");
+        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #45bea8; -fx-background-radius:15px; -fx-font-size: 18px; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350px; -fx-padding: 10px;");
         hBox.getChildren().add(label);
         Platform.runLater(() -> vbox.getChildren().add(hBox));
         System.out.println(message);
@@ -120,5 +127,20 @@ public class ChatFromController {
     public void setData(Client client, String userName) {
         this.client = client;
         this.userName = userName;
+    }
+
+    public void writeImage(String sender, byte[] bytes) {
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-alignment: center-left; -fx-fill-height: true; -fx-min-height: 50px; -fx-pref-width: 520px; -fx-max-width: 520px; -fx-padding: 10px");
+
+        Label label = new Label(sender);
+        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #45bea8; -fx-background-radius:15px; -fx-font-size: 18px; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350px; -fx-padding: 10px;");
+        Platform.runLater(() -> {
+            ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(bytes)));
+            imageView.setFitWidth(200);
+            imageView.setFitHeight(200);
+            hBox.getChildren().addAll(label, imageView);
+            vbox.getChildren().add(hBox);
+        });
     }
 }
