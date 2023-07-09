@@ -6,10 +6,21 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Optional;
 
 public class ChatFromController {
 
@@ -41,6 +52,35 @@ public class ChatFromController {
 
     @FXML
     void btnImageOnAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Image");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Files", "*.jpg", "*.png", "*.jpeg");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            try {
+
+                //Set selected image for sender's Chat Room
+                ImageView imageView = new ImageView(new Image(new FileInputStream(file)));
+                imageView.setFitHeight(200);
+                imageView.setFitWidth(200);
+
+                HBox hBox = new HBox();
+                hBox.setStyle("-fx-alignment: center-right; -fx-fill-height: true; -fx-min-height: 50px; -fx-pref-width: 520px; -fx-max-width: 520px; -fx-padding: 10px; ");
+
+                //Ask user need to send image to the Chat Room
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you need to send this " + file.getName() + " image to chat room ?", ButtonType.OK, ButtonType.NO);
+                alert.setTitle("Send Image");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    System.out.println("send image to Chat Room");
+                    hBox.getChildren().add(imageView);
+                    vbox.getChildren().add(hBox);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
