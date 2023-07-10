@@ -6,12 +6,15 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -21,10 +24,18 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class ChatFromController {
+public class ChatFromController implements Initializable {
+
+    @FXML
+    private AnchorPane emojiBar;
+
+    @FXML
+    public GridPane emojiPane;
 
     @FXML
     private AnchorPane root;
@@ -43,13 +54,34 @@ public class ChatFromController {
 
     @FXML
     private VBox vbox;
-
+    private final String[] emojis = {
+            "\uD83D\uDE03", // 🤣
+            "\uD83D\uDE04", // 😄
+            "\uD83D\uDE00", // 😀
+            "\uD83D\uDE02", // 😂
+            "\uD83D\uDE0C", // 😌
+            "\uD83D\uDE0D", // 😍
+            "\uD83D\uDE0E", // 😎
+            "\uD83D\uDE0F", // 😏
+            "\uD83D\uDE10", // 😐
+            "\uD83D\uDE11", // 😑
+            "\uD83D\uDE12", // 😒
+            "\uD83D\uDE05", // 😅
+            "\uD83D\uDE06", // 😆
+            "\uD83D\uDE08", // 😈
+            "\uD83D\uDE09", // 😉
+            "\uD83D\uDE0A", // 😊
+            "\uD83D\uDE13", // 😓
+            "\uD83D\uDE0B", // 😋
+            "\uD83D\uDE01", // 😁
+            "\uD83D\uDE07"  // 😇
+    };
     private Client client;
     private String userName;
 
     @FXML
     void btnEmojiOnAction(ActionEvent event) {
-        System.out.println("Emoji");
+        emojiBar.setVisible(!emojiBar.isVisible());
     }
 
     @FXML
@@ -142,5 +174,29 @@ public class ChatFromController {
             hBox.getChildren().addAll(label, imageView);
             vbox.getChildren().add(hBox);
         });
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        emojiBar.setVisible(false);
+        createEmojiBar();
+    }
+
+    private void createEmojiBar() {
+        int btnIndex = 0;
+        for (int row = 0; row < 4; row++) {
+            for (int column = 0; column < 5; column++) {
+                if (btnIndex < emojis.length) {
+                    JFXButton button = new JFXButton(emojis[btnIndex]);
+                    button.setStyle("-fx-background-radius:20px;-fx-text-alignment: center; -fx-background-color: #b7fffc;");
+                    button.setAlignment(Pos.CENTER);
+                    emojiPane.add(button, column, row);
+                    button.setOnAction(event -> {
+                        txtField.appendText(button.getText());
+                    });
+                    btnIndex++;
+                }
+            }
+        }
     }
 }

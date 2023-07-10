@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 String reply = dataInputStream.readUTF();
-                if ("*image*".equals(reply)) {
+                if ("--image--".equals(reply)) {
                     readImage();
                 } else {
                     publicMessage(reply);
@@ -88,7 +88,7 @@ public class ClientHandler implements Runnable {
 
     private void sendImage(String userName, byte[] bytes) {
         try {
-            dataOutputStream.writeUTF("*image*");
+            dataOutputStream.writeUTF("--image--");
             dataOutputStream.writeUTF(userName);
             dataOutputStream.writeInt(bytes.length);
             dataOutputStream.write(bytes);

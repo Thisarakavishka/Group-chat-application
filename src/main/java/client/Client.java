@@ -73,11 +73,9 @@ public class Client {
             while (socket.isConnected()) {
                 try {
                     String message = dataInputStream.readUTF();
-                    if ("*image*".equals(message)) {
-                        System.out.println("77 line ");
+                    if ("--image--".equals(message)) {
                         readImage();
                     } else {
-                        System.out.println("80 line ");
                         chatFromController.writeMessage(message);
                     }
                 } catch (IOException e) {
@@ -98,7 +96,7 @@ public class Client {
 
     public void sendImage(byte[] bytes) {
         try {
-            dataOutputStream.writeUTF("*image*");
+            dataOutputStream.writeUTF("--image--");
             dataOutputStream.writeInt(bytes.length);
             dataOutputStream.write(bytes);
             dataOutputStream.flush();
