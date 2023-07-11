@@ -1,4 +1,7 @@
 package dao.daos;
 
-public interface UserDAO {
+import dao.CrudDAO;
+import entity.User;
+
+public interface UserDAO extends CrudDAO<User> {
 }
