@@ -29,7 +29,7 @@ public class NotificationUtil {
                 notification.graphic(new ImageView(new Image(NotificationUtil.class.getResourceAsStream("/assets/ok.png"), 80, 80, true, true)));
                 break;
         }
-        notification.position(Pos.TOP_CENTER);
+        notification.position(Pos.TOP_RIGHT);
         notification.show();
     }
 }
