@@ -75,5 +75,23 @@
             </GridPane>
          </children>
       </AnchorPane>
+      <JFXButton fx:id="btnDashBoard" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="6.0" onAction="#btnDashBoardOnAction" prefHeight="25.0" prefWidth="21.0" text=" ">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="20.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/dashboard.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="btnLogout" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="466.0" layoutY="6.0" onAction="#btnLogoutOnAction" prefHeight="25.0" prefWidth="21.0" text=" ">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="20.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/logout.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>

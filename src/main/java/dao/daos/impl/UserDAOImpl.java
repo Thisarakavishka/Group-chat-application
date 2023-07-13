@@ -17,7 +17,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User dto) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("UPDATE user SET userName = ?, password = ?, status = ?", dto.getUserName(), dto.getPassword(), dto.getStatus());
+        return CrudUtil.execute("UPDATE user SET  password = ?, status = ? WHERE userName = ?", dto.getPassword(), dto.getStatus(), dto.getUserName());
     }
 
     @Override
