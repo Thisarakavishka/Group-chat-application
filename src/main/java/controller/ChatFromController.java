@@ -1,13 +1,18 @@
 package controller;
 
+import bo.BOFactory;
+import bo.bos.UserBO;
 import client.Client;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dto.UserDTO;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -19,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -26,10 +32,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ChatFromController implements Initializable {
+
+    @FXML
+    public JFXButton btnDashBoard;
+
+    @FXML
+    public JFXButton btnLogout;
 
     @FXML
     private AnchorPane emojiBar;
@@ -78,6 +92,9 @@ public class ChatFromController implements Initializable {
     };
     private Client client;
     private String userName;
+
+    //Dependency Injection
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     @FXML
     void btnEmojiOnAction(ActionEvent event) {
@@ -132,7 +149,7 @@ public class ChatFromController implements Initializable {
 
         // Create Label and add it to the HBox
         Label label = new Label(txtField.getText());
-        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #a11d3f; -fx-background-radius:15; -fx-font-size: 18; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350; -fx-padding: 10;");
+        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #a11d3f; -fx-background-radius:15px 0px 15px 15px; -fx-font-size: 18; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350; -fx-padding: 10;");
         hBox.getChildren().add(label);
         vbox.getChildren().add(hBox);
         txtField.setText("");
@@ -150,7 +167,7 @@ public class ChatFromController implements Initializable {
 
         // Create Label and add it to the HBox
         Label label = new Label(message);
-        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #45bea8; -fx-background-radius:15px; -fx-font-size: 18px; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350px; -fx-padding: 10px;");
+        label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #45bea8; -fx-background-radius:0px 15px 15px 15px; -fx-font-size: 18px; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350px; -fx-padding: 10px;");
         hBox.getChildren().add(label);
         Platform.runLater(() -> vbox.getChildren().add(hBox));
         System.out.println(message);
@@ -163,7 +180,7 @@ public class ChatFromController implements Initializable {
 
     public void writeImage(String sender, byte[] bytes) {
         HBox hBox = new HBox();
-        hBox.setStyle("-fx-alignment: center-left; -fx-fill-height: true; -fx-min-height: 50px; -fx-pref-width: 520px; -fx-max-width: 520px; -fx-padding: 10px");
+        hBox.setStyle("-fx-alignment: center-left;-fx-fill-height: true; -fx-min-height: 50px; -fx-pref-width: 520px; -fx-max-width: 520px; -fx-padding: 10px");
 
         Label label = new Label(sender);
         label.setStyle(" -fx-alignment: center-left; -fx-background-color:  #45bea8; -fx-background-radius:15px; -fx-font-size: 18px; -fx-text-fill: #ffffff; -fx-wrap-text: true; -fx-content-display: left; -fx-max-width: 350px; -fx-padding: 10px;");
@@ -198,5 +215,39 @@ public class ChatFromController implements Initializable {
                 }
             }
         }
+    }
+
+    public void btnDashBoardOnAction(ActionEvent event) {
+        try {
+            ArrayList<UserDTO> userDTOS = userBO.getAllUsers();
+
+            HBox hBox = new HBox();
+            hBox.setSpacing(10);
+            hBox.setPadding(new Insets(10));
+
+            for (UserDTO dto : userDTOS) {
+                if(dto.getStatus() != 0){
+                    Label label = new Label(dto.getUserName());
+                    label.setStyle("-fx-text-alignment: center; -fx-text-fill: #ffffff; -fx-background-color: green; -fx-font-weight: bold; -fx-font-size: 15px; -fx-background-radius: 10px; -fx-border-width: 5px; -fx-border-color: darkgreen; -fx-min-height: 50px; -fx-min-width: 70px;-fx-padding: 5px");
+                    hBox.getChildren().add(label);
+                }
+            }
+
+            Scene scene = new Scene(hBox);
+            Stage stage = new Stage();
+            stage.setTitle("Online members");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnLogoutOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        UserDTO dto = userBO.searchUser(userName);
+        userBO.updateUser(new UserDTO(dto.getUserName(), dto.getPassword(), 0));
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 }
