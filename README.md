@@ -1,10 +1,6 @@
-![Group Chat Application](/src/main/resources/assets/Server%20Form.png)
-![Group Chat Application - Login Form](/src/main/resources/assets/Server%20Form%20-%20login.png)
-![Group Chat Application - Chat Room](/src/main/resources/assets/Chat%20Room%20.png)
+# Group Chat Application
 
-
-
-The Group Chat Application is a client-server-based chat application built using Java and JavaFX. It enables two or more computers within the same network to communicate with each other in real-time.It can send photos and emojis as well.
+The Group Chat Application is a client-server-based chat application built using Java and JavaFX. It enables two or more computers within the same network to communicate with each other in real-time. It can send photos and emojis as well.
 
 ## Table of Contents
 
@@ -16,11 +12,18 @@ The Group Chat Application is a client-server-based chat application built using
 - [Contributing](#contributing)
 - [License](#license)
 
+## Screenshots
+
+  <img src="/src/main/resources/assets/Server%20Form.png" alt="Group Chat Application" width="250" />
+  <img src="/src/main/resources/assets/Server%20Form%20-%20login.png" alt="Group Chat Application - Login Form" width="250" />
+  <img src="/src/main/resources/assets/Chat%20Room%20.png" alt="Group Chat Application - Chat Room" width="250" />
+
+
 ## Features
 
 - Secure client-server communication over the same network.
 - Real-time chat functionality.
-- Ability to join main chat room and share data.
+- Ability to join the main chat room and share data.
 - User authentication.
 - Emojis and basic formatting support.
 - User-friendly GUI using JavaFX.
@@ -51,7 +54,7 @@ The Group Chat Application is a client-server-based chat application built using
 ## Usage
 
 1. Run the application on the host computer.
-2. Once authenticated, the client can join main chat room.
+2. Once authenticated, the client can join the main chat room.
 3. Start chatting with other clients within the same network.
 
 ## Contributing
