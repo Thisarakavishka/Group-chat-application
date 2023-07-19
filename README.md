@@ -14,10 +14,11 @@ The Group Chat Application is a client-server-based chat application built using
 
 ## Screenshots
 
+<p align="center">
   <img src="/src/main/resources/assets/Server%20Form.png" alt="Group Chat Application" width="250" />
   <img src="/src/main/resources/assets/Server%20Form%20-%20login.png" alt="Group Chat Application - Login Form" width="250" />
   <img src="/src/main/resources/assets/Chat%20Room%20.png" alt="Group Chat Application - Chat Room" width="250" />
-
+<p/>
 
 ## Features
 
